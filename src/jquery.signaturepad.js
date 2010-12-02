@@ -581,24 +581,29 @@ function SignaturePad(selector, options)
 	{
 		var valid = true;
 		
-		$('p.'+settings.errorClass, context).remove();
-		context.removeClass(settings.errorClass);
-		$('input, label', context).removeClass(settings.errorClass);
-		
-		if(settings.drawOnly && output.length < 1)
+		if(settings.validate == true)
 		{
-			$(selector).prepend('<p class="'+settings.errorClass+'">'+settings.errorMessageDraw+'</p>');
-			valid = false;
-		}
+  		$('p.'+settings.errorClass, context).remove();
+  		context.removeClass(settings.errorClass);
+  		$('input, label', context).removeClass(settings.errorClass);
 		
-		if($(settings.name, context).val() === '')
-		{
-			$(selector).prepend('<p class="'+settings.errorClass+'">'+settings.errorMessage+'</p>');
-			$(settings.name, context).focus();
-			$(settings.name, context).addClass(settings.errorClass);
-			$('label[for='+$(settings.name).attr('id')+']', context).addClass(settings.errorClass);
-			valid = false;
-		}
+  		if(settings.drawOnly && output.length < 1)
+  		{
+  			$(selector).prepend('<p class="'+settings.errorClass+'">'+settings.errorMessageDraw+'</p>');
+  			valid = false;
+  		}
+		
+  		if($(settings.name, context).val() === '')
+  		{
+  			$(selector).prepend('<p class="'+settings.errorClass+'">'+settings.errorMessage+'</p>');
+  			$(settings.name, context).focus();
+  			$(settings.name, context).addClass(settings.errorClass);
+  			$('label[for='+$(settings.name).attr('id')+']', context).addClass(settings.errorClass);
+  			valid = false;
+  		}
+  	} else {
+  	  valid = true;
+  	}
 		
 		return valid;
 	}
@@ -652,6 +657,7 @@ $.fn.signaturePad.defaults = {
 	,drawItDesc: '.drawItDesc' // The description for DrawIt actions (hidden by default)
 	,output: '.output' // The hidden input field for remembering line coordinates
 	,currentClass: 'current' // The class used to mark items as being currently active
+	,validate: true // Whether the to enforce signature or not
 	,errorClass: 'error' // The class applied to the new error Html element
 	,errorMessage: 'Please enter your name' // The error message displayed on invalid submission
 	,errorMessageDraw: 'Please sign the document' // The error message displayed when drawOnly and no signature is drawn
